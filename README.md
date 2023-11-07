@@ -6,7 +6,7 @@ This repository contains the Tap Analytics API, which provides an endpoint for a
 
 ### Aggregating Tap Data
 
-The endpoint `/api/analytics` allows for the aggregation of tap data based on a specified interval and date range.
+The endpoint `/api/taps/analytics` allows for the aggregation of tap data based on a specified interval and date range.
 
 #### Parameters:
 
@@ -57,7 +57,7 @@ Access the API at `http://localhost:3000/api/taps/analytics` with the required q
 
 ### Setting Up the Prisma Database
 
-Prisma is an open-source database toolkit that makes it easy to work with databases. To get started with Prisma in this project, follow these steps:
+To get started with Prisma, follow these steps:
 
 #### Configure Your Database Connection
 
