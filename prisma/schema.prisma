@@ -1,0 +1,38 @@
+// Prisma schema for the application's data models
+
+generator client {
+  provider = "prisma-client-js" 
+}
+
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL") 
+}
+
+model Team {
+  id      Int    @id @default(autoincrement()) // Unique identifier for the team, automatically increments
+  name    String 
+  token   String @unique @default(cuid()) // An API token for the team, must be unique, defaults to a globally unique identifier
+  tags    Tag[] // A relation indicating that a team can have many tags
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement()) // Unique identifier for the tag, automatically increments
+  tagUid    BigInt   @unique // A unique identifier for the tag, potentially a large number hence BigInt
+  teamId    Int
+  Taps      Tap[]
+  createdAt DateTime @default(now()) @map("created_at") // The timestamp when the tag was created, defaults to the current time
+  Team      Team     @relation(fields: [teamId], references: [id])
+
+  @@index(fields: [tagUid]) // An index on the tagUid field for efficient queries
+}
+
+model Tap {
+  id        Int      @id @default(autoincrement()) // Unique identifier for the tap, automatically increments
+  tagUid    BigInt
+  count     Int
+  createdAt DateTime @default(now()) @map("created_at") // The timestamp when the tap occurred, defaults to the current time
+  Tag       Tag      @relation(fields: [tagUid], references: [tagUid])
+
+  @@index(fields: [tagUid, createdAt]) // An index on the tagUid and createdAt fields for efficient queries
+}
